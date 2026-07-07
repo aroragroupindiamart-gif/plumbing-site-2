@@ -72,6 +72,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: your-site-name
+          projectName: plumbing-site-2
           directory: out
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
