@@ -13,15 +13,15 @@ import {
 import { selectVariant } from "@/lib/spintax";
 import Footer from "@/components/Footer";
 
-export const dynamicParams = process.env.NODE_ENV !== "production";
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
-  if (process.env.NODE_ENV !== "production") return [];
-
   const locations = await getAllLocations();
   const params: { state: string; place: string; service: string }[] = [];
+  // In dev, cap at 50 routes to avoid call-stack overflow from ~201k params
+  const devCap = process.env.NODE_ENV !== "production" ? 50 : Infinity;
 
-  for (const loc of locations) {
+  outer: for (const loc of locations) {
     const services = await getServicesByLocationTier(loc.tier);
     for (const svc of services) {
       params.push({
@@ -29,6 +29,7 @@ export async function generateStaticParams() {
         place: loc.place_slug,
         service: svc.service_slug,
       });
+      if (params.length >= devCap) break outer;
     }
   }
 
