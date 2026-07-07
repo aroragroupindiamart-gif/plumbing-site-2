@@ -1,8 +1,6 @@
 import { getLocationsByState, getAllServices, getStates } from "@/lib/data";
 import { SITE_URL } from "@/lib/config";
 
-export const dynamic = "force-static";
-
 const MAX_URLS = 50000;
 
 export async function generateStaticParams() {
