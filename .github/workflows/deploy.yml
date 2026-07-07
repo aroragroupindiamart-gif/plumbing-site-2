@@ -55,7 +55,7 @@ jobs:
         run: pnpm install --no-frozen-lockfile
 
       - name: Build for Cloudflare Workers
-        run: pnpm run build
+        run: pnpm run build:cf
         env:
           NODE_OPTIONS: "--max-old-space-size=6144"
           NEXT_PUBLIC_BRAND_NAME: ${{ secrets.NEXT_PUBLIC_BRAND_NAME }}
