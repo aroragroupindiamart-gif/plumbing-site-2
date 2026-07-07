@@ -54,7 +54,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: Build static site
+      - name: Build for Cloudflare Workers
         run: pnpm run build
         env:
           NODE_OPTIONS: "--max-old-space-size=6144"
@@ -70,11 +70,8 @@ jobs:
           NEXT_PUBLIC_ADSENSE_ID: ${{ secrets.NEXT_PUBLIC_ADSENSE_ID }}
           NEXT_PUBLIC_GSC_TOKEN: ${{ secrets.NEXT_PUBLIC_GSC_TOKEN }}
 
-      - name: Deploy to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
+      - name: Deploy to Cloudflare Workers
+        uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: plumbing-site-2
-          directory: out
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
