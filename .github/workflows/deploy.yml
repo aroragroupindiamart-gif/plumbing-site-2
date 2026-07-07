@@ -54,6 +54,7 @@ jobs:
       - name: Build static site
         run: pnpm run build
         env:
+          NODE_OPTIONS: "--stack-size=65536"
           NEXT_PUBLIC_BRAND_NAME: ${{ secrets.NEXT_PUBLIC_BRAND_NAME }}
           NEXT_PUBLIC_PHONE_NUMBER: ${{ secrets.NEXT_PUBLIC_PHONE_NUMBER }}
           NEXT_PUBLIC_PHONE_TEL: ${{ secrets.NEXT_PUBLIC_PHONE_TEL }}
