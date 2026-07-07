@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "next dev -p ${PORT:-3000} -H 0.0.0.0",
-    "build": "opennextjs-cloudflare build",
+    "build": "next build",
+    "build:cf": "opennextjs-cloudflare build",
     "deploy": "wrangler deploy",
     "start": "next start -p ${PORT:-3000}",
     "typecheck": "tsc -p tsconfig.json --noEmit"
