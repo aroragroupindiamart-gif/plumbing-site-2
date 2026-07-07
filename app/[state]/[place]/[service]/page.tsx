@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import {
-  getAllLocations, getAllServices, getLocation, getService,
+  getLocation, getService,
   getSiblingServices, getNearbyLocations,
   isServiceAllowedForTier,
 } from "@/lib/data";
@@ -13,37 +13,6 @@ import {
 import { selectVariant } from "@/lib/spintax";
 import Footer from "@/components/Footer";
 
-export const dynamicParams = false;
-
-export async function generateStaticParams() {
-  // Await only twice so we never chain 2,249 microtasks in a loop
-  const [locations, allServices] = await Promise.all([
-    getAllLocations(),
-    getAllServices(),
-  ]);
-  const total = allServices.length;
-  const isDev = process.env.NODE_ENV !== "production";
-  const params: { state: string; place: string; service: string }[] = [];
-
-  outer: for (const loc of locations) {
-    const limit =
-      loc.tier === 1 ? total
-      : loc.tier === 2 ? Math.ceil(total * 0.5)
-      : Math.ceil(total * 0.17);
-    const services = allServices.slice(0, limit);
-    for (const svc of services) {
-      params.push({
-        state: loc.state_code.toLowerCase(),
-        place: loc.place_slug,
-        service: svc.service_slug,
-      });
-      // In dev cap at 50 to keep startup fast
-      if (isDev && params.length >= 50) break outer;
-    }
-  }
-
-  return params;
-}
 
 interface Props {
   params: Promise<{ state: string; place: string; service: string }>;
