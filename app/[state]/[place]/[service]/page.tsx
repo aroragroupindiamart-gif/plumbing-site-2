@@ -2,9 +2,9 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import {
-  getAllLocations, getLocation, getService,
+  getAllLocations, getAllServices, getLocation, getService,
   getSiblingServices, getNearbyLocations,
-  isServiceAllowedForTier, getServicesByLocationTier,
+  isServiceAllowedForTier,
 } from "@/lib/data";
 import {
   BRAND_NAME, PHONE_NUMBER, PHONE_TEL, SITE_URL,
