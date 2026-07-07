@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "next dev -p ${PORT:-3000} -H 0.0.0.0",
-    "build": "node --stack-size=16384 ./node_modules/next/dist/bin/next build",
+    "build": "opennextjs-cloudflare build",
+    "deploy": "wrangler deploy",
     "start": "next start -p ${PORT:-3000}",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
@@ -15,12 +16,14 @@
     "react-dom": "latest"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "^1.6.0",
     "@tailwindcss/postcss": "^4.1.14",
     "@types/node": "^20.0.0",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "postcss": "^8.5.0",
     "tailwindcss": "latest",
-    "typescript": "~5.9.3"
+    "typescript": "~5.9.3",
+    "wrangler": "^4.0.0"
   }
 }
