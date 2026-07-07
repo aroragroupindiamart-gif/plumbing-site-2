@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev -p ${PORT:-3000} -H 0.0.0.0",
-    "build": "node --stack-size=16384 ./node_modules/.bin/next build",
+    "build": "node --stack-size=16384 ./node_modules/next/dist/bin/next build",
     "start": "next start -p ${PORT:-3000}",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
