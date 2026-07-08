@@ -15,7 +15,7 @@ export async function GET() {
     for (let i = 1; i <= totalFiles; i++) {
       const suffix = i === 1 ? "" : `-${i}`;
       entries.push(
-        `  <sitemap>\n    <loc>${SITE_URL}/sitemap/${sc}${suffix}.xml</loc>\n    <lastmod>${today}</lastmod>\n  </sitemap>`
+        `  <sitemap>\n    <loc>${SITE_URL}/sitemap/${sc}${suffix}</loc>\n    <lastmod>${today}</lastmod>\n  </sitemap>`
       );
     }
   }
