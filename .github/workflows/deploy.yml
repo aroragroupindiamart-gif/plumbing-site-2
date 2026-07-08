@@ -20,6 +20,8 @@
 #   NEXT_PUBLIC_GA_ID            Google Analytics 4 measurement ID
 #   NEXT_PUBLIC_ADSENSE_ID       Google AdSense publisher ID
 #   NEXT_PUBLIC_GSC_TOKEN        Google Search Console verification token
+#   NEXT_PUBLIC_CONTENT_SALT     Per-site content variant offset (see lib/spintax.ts).
+#                                Leave unset/0 for the original template site.
 # ============================================================
 
 name: Deploy to Cloudflare Pages
@@ -69,6 +71,7 @@ jobs:
           NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID }}
           NEXT_PUBLIC_ADSENSE_ID: ${{ secrets.NEXT_PUBLIC_ADSENSE_ID }}
           NEXT_PUBLIC_GSC_TOKEN: ${{ secrets.NEXT_PUBLIC_GSC_TOKEN }}
+          NEXT_PUBLIC_CONTENT_SALT: ${{ secrets.NEXT_PUBLIC_CONTENT_SALT }}
 
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v4
