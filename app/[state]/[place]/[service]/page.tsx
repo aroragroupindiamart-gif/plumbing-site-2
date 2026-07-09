@@ -5,7 +5,6 @@ import {
   getLocation, getService,
   getSiblingServices, getNearbyLocations,
   isServiceAllowedForTier,
-  getAllLocations, getServicesByLocation,
 } from "@/lib/data";
 import {
   BRAND_NAME, PHONE_NUMBER, PHONE_TEL, SITE_URL,
@@ -15,24 +14,8 @@ import { selectVariant } from "@/lib/spintax";
 import { CONTENT_PACK, renderTemplate } from "@/lib/content";
 import Footer from "@/components/Footer";
 
-
-export const dynamicParams = false;
-
-export async function generateStaticParams() {
-  const locations = await getAllLocations();
-  const params: { state: string; place: string; service: string }[] = [];
-  for (const loc of locations) {
-    const services = await getServicesByLocation(loc.id);
-    for (const svc of services) {
-      params.push({
-        state: loc.state_code.toLowerCase(),
-        place: loc.place_slug,
-        service: svc.service_slug,
-      });
-    }
-  }
-  return params;
-}
+export const revalidate = 3600;
+export const dynamicParams = true;
 
 interface Props {
   params: Promise<{ state: string; place: string; service: string }>;
