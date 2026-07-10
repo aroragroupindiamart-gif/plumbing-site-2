@@ -62,8 +62,8 @@ export async function getAllServices(): Promise<Service[]> {
 export async function getStates(): Promise<StateRow[]> {
   const map = new Map<string, StateRow>();
   for (const loc of ALL_LOCATIONS) {
+    const pages = ALL_SERVICES.length;
     const entry = map.get(loc.state_code);
-    const pages = loc.tier === 1 ? ALL_SERVICES.length : loc.tier === 2 ? Math.ceil(ALL_SERVICES.length * 0.5) : Math.ceil(ALL_SERVICES.length * 0.17);
     if (entry) {
       entry.location_count++;
       entry.page_count += pages;
@@ -104,44 +104,28 @@ export async function getService(serviceSlug: string): Promise<Service | null> {
   return serviceBySlug.get(serviceSlug) ?? null;
 }
 
-export async function getServicesByLocationTier(tier: number): Promise<Service[]> {
-  const total = ALL_SERVICES.length;
-  const limit = tier === 1 ? total : tier === 2 ? Math.ceil(total * 0.5) : Math.ceil(total * 0.17);
-  return ALL_SERVICES.slice(0, limit);
+export async function getServicesByLocationTier(_tier: number): Promise<Service[]> {
+  return ALL_SERVICES;
 }
 
 export async function getServicesByLocation(locationId: number): Promise<Service[]> {
   const loc = locationById.get(locationId);
   if (!loc) return [];
-  const total = ALL_SERVICES.length;
-  const tierLimit = loc.tier === 1 ? total : loc.tier === 2 ? Math.ceil(total * 0.5) : Math.ceil(total * 0.17);
-  if (loc.tier === 2 || loc.tier === 3) {
-    return ALL_SERVICES.slice(0, tierLimit)
-      .slice()
-      .sort((a, b) => shuffleKey(a.id, locationId) - shuffleKey(b.id, locationId));
-  }
-  return getServicesByLocationTier(loc.tier);
+  return ALL_SERVICES;
 }
 
-export async function isServiceAllowedForTier(serviceId: number, locationTier: number): Promise<boolean> {
-  const total = ALL_SERVICES.length;
-  const limit = locationTier === 1 ? total : locationTier === 2 ? Math.ceil(total * 0.5) : Math.ceil(total * 0.17);
-  return ALL_SERVICES.slice(0, limit).some((s) => s.id === serviceId);
+export async function isServiceAllowedForTier(_serviceId: number, _locationTier: number): Promise<boolean> {
+  return true;
 }
 
 export async function getSiblingServices(locationId: number, serviceId: number, limit = 5): Promise<Service[]> {
   const loc = locationById.get(locationId);
   if (!loc) return [];
-  const total = ALL_SERVICES.length;
-  const tierLimit = loc.tier === 1 ? total : loc.tier === 2 ? Math.ceil(total * 0.5) : Math.ceil(total * 0.17);
-  const pool = ALL_SERVICES.slice(0, tierLimit).filter((s) => s.id !== serviceId);
-  if (loc.tier === 2 || loc.tier === 3) {
-    return pool
-      .slice()
-      .sort((a, b) => shuffleKey(a.id, locationId) - shuffleKey(b.id, locationId))
-      .slice(0, limit);
-  }
-  return pool.slice(0, limit);
+  const pool = ALL_SERVICES.filter((s) => s.id !== serviceId);
+  return pool
+    .slice()
+    .sort((a, b) => shuffleKey(a.id, locationId) - shuffleKey(b.id, locationId))
+    .slice(0, limit);
 }
 
 export async function getNearbyLocations(locationId: number, stateCode: string, limit = 3): Promise<Location[]> {
