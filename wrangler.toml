@@ -7,3 +7,7 @@ workers_dev = true
 [assets]
 directory = ".open-next/assets"
 binding = "ASSETS"
+
+[[kv_namespaces]]
+binding = "NEXT_CACHE_WORKERS_KV"
+id = "edcd7c9f7c344655bfc4149105493e1b"
